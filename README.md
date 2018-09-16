@@ -30,18 +30,18 @@ More details: http://pjreddie.com/darknet/yolo/
 This repository supports:
 
 * both Windows and Linux
-* both OpenCV 3.x and OpenCV 2.4.13
-* both cuDNN 5 and cuDNN 6
-* CUDA >= 7.5
+* both OpenCV 3.x and OpenCV 2.4.13（测试ok）
+* both cuDNN 5 and cuDNN 6 and cuDNN 7（测试ok）
+* CUDA >= 7.5（9.2测试ok）
 * also create SO-library on Linux and DLL-library on Windows
 
 ##### Requires: 
 * **Linux GCC>=4.9 or Windows MS Visual Studio 2015 (v140)**: https://go.microsoft.com/fwlink/?LinkId=532606&clcid=0x409  (or offline [ISO image](https://go.microsoft.com/fwlink/?LinkId=615448&clcid=0x409))
 * **CUDA 8.0**: https://developer.nvidia.com/cuda-downloads
 * **OpenCV 3.x**: https://sourceforge.net/projects/opencvlibrary/files/opencv-win/3.2.0/opencv-3.2.0-vc14.exe/download
-* **or OpenCV 2.4.13**: https://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.13/opencv-2.4.13.2-vc14.exe/download
+* **or OpenCV 2.4.13**: https://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.13/opencv-2.4.13.6-vc14.exe/download
   - OpenCV allows to show image or video detection in the window and store result to file that specified in command line `-out_filename res.avi`
-* **GPU with CC >= 2.0** if you use CUDA, or **GPU CC >= 3.0** if you use cuDNN + CUDA: https://en.wikipedia.org/wiki/CUDA#GPUs_supported
+* **GPU with CC >= 2.0** if you use CUDA, or **GPU CC >= 3.0** （10系列的1050起步）if you use cuDNN + CUDA: https://en.wikipedia.org/wiki/CUDA#GPUs_supported
 
 ##### Pre-trained models for different cfg-files can be downloaded from (smaller -> faster & lower quality):
 * `yolo.cfg` (194 MB COCO-model) - require 4 GB GPU-RAM: http://pjreddie.com/media/files/yolo.weights
@@ -112,7 +112,7 @@ On Linux use `./darknet` instead of `darknet.exe`, like this:`./darknet detector
 
 ### How to compile on Linux:
 
-Just do `make` in the darknet directory.
+Just do `make` in the darknet directory（win10子系统ubuntu16.04 直接ok）.
 Before make, you can set such options in the `Makefile`: [link](https://github.com/AlexeyAB/darknet/blob/9c1b9a2cf6363546c152251be578a21f3c3caec6/Makefile#L1)
 * `GPU=1` to build with CUDA to accelerate by using GPU (CUDA should be in `/usr/local/cuda`)
 * `CUDNN=1` to build with cuDNN v5/v6 to accelerate training by using GPU (cuDNN should be in `/usr/local/cudnn`)
@@ -124,13 +124,13 @@ Before make, you can set such options in the `Makefile`: [link](https://github.c
 
 ### How to compile on Windows:
 
-1. If you have **MSVS 2015, CUDA 8.0 and OpenCV 3.0** (with paths: `C:\opencv_3.0\opencv\build\include` & `C:\opencv_3.0\opencv\build\x64\vc14\lib`), then start MSVS, open `build\darknet\darknet.sln`, set **x64** and **Release**, and do the: Build -> Build darknet
+1. If you have **MSVS 2015, CUDA 9.2 and OpenCV 2.13.6 (with paths: `C:\opencv2\opencv\build\include` & `C:\opencv2\opencv\build\x64\vc14\lib`), then start MSVS, open `build\darknet\darknet.sln`, set **x64** and **Release**, and do the: Build -> Build darknet
 
-    1.1. Find files `opencv_world320.dll` and `opencv_ffmpeg320_64.dll` in `C:\opencv_3.0\opencv\build\x64\vc14\bin` and put it near with `darknet.exe`
+    1.1. Find files `opencv_world320.dll` and `opencv_ffmpeg320_64.dll` in `C:\opencv_3.0\opencv\build\x64\vc14\bin` and put it near with `darknet.exe`（或添加环境变量）
 
-2. If you have other version of **CUDA (not 8.0)** then open `build\darknet\darknet.vcxproj` by using Notepad, find 2 places with "CUDA 8.0" and change it to your CUDA-version, then do step 1
+2. If you have other version of **CUDA (not 8.0)** then open `build\darknet\darknet.vcxproj` by using Notepad, find 2 places with "CUDA 8.0" and change it to your CUDA-version, then do step 1（配置本机cuda）
 
-3. If you **don't have GPU**, but have **MSVS 2015 and OpenCV 3.0** (with paths: `C:\opencv_3.0\opencv\build\include` & `C:\opencv_3.0\opencv\build\x64\vc14\lib`), then start MSVS, open `build\darknet\darknet_no_gpu.sln`, set **x64** and **Release**, and do the: Build -> Build darknet
+3. If you **don't have GPU**, but have **MSVS 2015 and OpenCV 3.0** (with paths: `C:\opencv2\opencv\build\include` & `C:\opencv2\opencv\build\x64\vc14\lib`), then start MSVS, open `build\darknet\darknet_no_gpu.sln`, set **x64** and **Release**, and do the: Build -> Build darknet
 
 4. If you have **OpenCV 2.4.13** instead of 3.0 then you should change pathes after `\darknet.sln` is opened
 
@@ -140,7 +140,7 @@ Before make, you can set such options in the `Makefile`: [link](https://github.c
   
 5. If you want to build with CUDNN to speed up then:
       
-    * download and install **cuDNN 6.0 for CUDA 8.0**: https://developer.nvidia.com/cudnn
+    * download and install **cuDNN 7.0 for CUDA 9.2**: https://developer.nvidia.com/cudnn
       
     * add Windows system variable `cudnn` with path to CUDNN: https://hsto.org/files/a49/3dc/fc4/a493dcfc4bd34a1295fd15e0e2e01f26.jpg
       
@@ -148,7 +148,7 @@ Before make, you can set such options in the `Makefile`: [link](https://github.c
 
 ### How to compile (custom):
 
-Also, you can to create your own `darknet.sln` & `darknet.vcxproj`, this example for CUDA 8.0 and OpenCV 3.0
+Also, you can to create your own `darknet.sln` & `darknet.vcxproj`, this example for CUDA 9.2 and OpenCV 2.4.13
 
 Then add to your created project:
 - (right click on project) -> properties  -> C/C++ -> General -> Additional Include Directories, put here: 
@@ -177,7 +177,7 @@ Then add to your created project:
     * For OpenCV 3.X: `opencv_world320.dll` and `opencv_ffmpeg320_64.dll` from `C:\opencv_3.0\opencv\build\x64\vc14\bin` 
     * For OpenCV 2.4.13: `opencv_core2413.dll`, `opencv_highgui2413.dll` and `opencv_ffmpeg2413_64.dll` from  `C:\opencv_2.4.13\opencv\build\x64\vc14\bin`
 
-## How to train (Pascal VOC Data):
+## How to train (Pascal VOC Data):（待测试？）
 
 1. Download pre-trained weights for the convolutional layers (76 MB): http://pjreddie.com/media/files/darknet19_448.conv.23 and put to the directory `build\darknet\x64`
 
