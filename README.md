@@ -1,4 +1,4 @@
-# Yolo-v2 Windows and Linux version
+# Yolo-v2/3 Windows and Linux version
 
 [![CircleCI](https://circleci.com/gh/AlexeyAB/darknet.svg?style=svg)](https://circleci.com/gh/AlexeyAB/darknet)
 
